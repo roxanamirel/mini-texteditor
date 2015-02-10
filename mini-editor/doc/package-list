@@ -1,0 +1,6 @@
+fr.istic.aco.editor
+fr.istic.aco.editor.core
+fr.istic.aco.editor.core.command
+fr.istic.aco.editor.core.command.test
+fr.istic.aco.editor.core.impl
+fr.istic.aco.editor.core.test

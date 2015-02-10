@@ -1,0 +1,11 @@
+package fr.istic.aco.editor.core.command;
+
+public interface UndoableRedoable {
+
+	void undo();
+
+	void redo();
+
+	boolean isUndoed();
+
+}

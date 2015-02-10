@@ -1,0 +1,31 @@
+package fr.istic.aco.editor.core.command.test;
+
+import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.command.Select;
+
+public class SelectTest {
+	
+	private Select select;
+	
+	private MiniEditorEngine mockedEditorEngine;	
+	private final int START = (int) (Math.random() * 100);
+	private final int END = (int) (Math.random() * 100);
+	
+	@Before
+	public void setUp() throws Exception {
+		mockedEditorEngine = mock(MiniEditorEngine.class);
+		select = new Select(mockedEditorEngine, START, END);
+	}
+
+	@Test
+	public void testExecute() {
+		select.execute();
+		verify(mockedEditorEngine).engineSelect(START, END);
+	}
+
+}

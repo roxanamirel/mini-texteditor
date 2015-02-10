@@ -1,0 +1,19 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+
+public class StopRecord extends RecorderCommand {
+
+	private int stopIndex;
+
+	public StopRecord(RecorderEngine engine, int stopIndex) {
+		super(engine);
+		this.stopIndex = stopIndex;
+	}
+
+	@Override
+	public void execute() {
+		engine.stopRecording(stopIndex);
+	}
+
+}

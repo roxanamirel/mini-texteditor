@@ -1,0 +1,30 @@
+package fr.istic.aco.editor.core.command.test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.command.Paste;
+
+public class PasteTest {
+
+	private Paste paste;
+	
+	private MiniEditorEngine mockedEditorEngine;	
+	
+	@Before
+	public void setUp() throws Exception {
+		mockedEditorEngine = mock(MiniEditorEngine.class);
+		paste = new Paste(mockedEditorEngine);
+	}
+
+	@Test
+	public void testExecute() {
+		paste.execute();
+		verify(mockedEditorEngine).enginePaste();
+	}
+
+}

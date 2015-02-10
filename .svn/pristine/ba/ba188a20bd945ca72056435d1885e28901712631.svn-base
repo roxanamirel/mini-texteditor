@@ -1,0 +1,14 @@
+package fr.istic.aco.editor.core.command;
+
+/**
+ * The Interface Command.
+ * @version 1
+ * @author Mirel Vlad, Roxana-Ioana Roman
+ */
+public interface Command {
+
+	 /**
+ 	 * Execute.
+ 	 */
+ 	void execute();
+}

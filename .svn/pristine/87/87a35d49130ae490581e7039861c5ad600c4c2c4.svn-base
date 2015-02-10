@@ -1,0 +1,16 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+
+public class Cut extends MiniEditorCommand {
+
+	public Cut(MiniEditorEngine engine) {
+		super(engine);
+	}
+
+	@Override
+	public void execute() {
+		engine.engineCut();
+	}
+
+}

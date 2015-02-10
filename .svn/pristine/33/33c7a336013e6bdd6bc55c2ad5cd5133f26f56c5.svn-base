@@ -1,0 +1,24 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.Clipboard;
+
+public class ClipboardImpl implements Clipboard {
+
+	private String clipbordString;
+	
+	public ClipboardImpl() {
+		this.clipbordString = new String();
+	}
+
+	@Override
+	public String read() {
+		return clipbordString;
+	}
+
+	@Override
+	public void write(String str) {
+		clipbordString = str;
+		
+	}
+
+}

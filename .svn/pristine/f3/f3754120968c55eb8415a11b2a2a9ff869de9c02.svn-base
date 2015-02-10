@@ -1,0 +1,87 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.Buffer;
+
+/**
+ * The Class BufferImpl.
+ * @version 1
+ * @author Mirel Vlad, Roxana-Ioana Roman
+ */
+public class BufferImpl implements Buffer {
+
+	/** The string buffer. */
+	private String stringBuffer;
+
+	/**
+	 * Instantiates a new buffer impl.
+	 */
+	public BufferImpl() {
+		this.stringBuffer = new String();
+	}
+
+	/**
+	 * Instantiates a new buffer impl.
+	 * 
+	 * @param buffer
+	 *            the buffer
+	 */
+	public BufferImpl(Buffer buffer) {
+		this.stringBuffer = buffer.read(0, buffer.getLength());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.core.Buffer#read(int, int)
+	 */
+	@Override
+	public String read(int begin, int end) {
+		if (begin > stringBuffer.length()) {
+			return "";
+		} else if (end > stringBuffer.length()) {
+			return stringBuffer.substring(begin, stringBuffer.length());
+		} else {
+			return stringBuffer.substring(Math.min(begin, end),
+					Math.max(begin, end));
+	}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.core.Buffer#write(int, int, java.lang.String)
+	 */
+	@Override
+	public void write(int begin, int end, String str) {
+		if ("".equals(str)) {
+			// performing CUT operation
+			int endAux = end > stringBuffer.length() ? stringBuffer.length()
+					: end;
+			int beginAux = begin > stringBuffer.length() ? stringBuffer
+					.length() : begin;
+
+			this.stringBuffer = stringBuffer.substring(0, beginAux)
+					+ stringBuffer.substring(endAux, stringBuffer.length());
+		} else {
+			// // performing COPY & INSERT operation
+
+			String leftPart = begin <= stringBuffer.length() ? stringBuffer
+					.substring(0, begin) : stringBuffer;
+			String rightPart = end <= stringBuffer.length() ? stringBuffer
+					.substring(end, stringBuffer.length()) : "";
+			this.stringBuffer = leftPart.concat(str).concat(rightPart);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.core.Buffer#getLength()
+	 */
+	@Override
+	public int getLength() {
+		return stringBuffer.length();
+	}
+
+}

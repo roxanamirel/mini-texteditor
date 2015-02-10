@@ -1,0 +1,29 @@
+package fr.istic.aco.editor.core.command.test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.command.Cut;
+
+public class CutTest {
+
+	private Cut cut;
+	private MiniEditorEngine mockedEditorEngine;
+
+	@Before
+	public void setUp() throws Exception {
+		mockedEditorEngine = mock(MiniEditorEngine.class);
+		cut = new Cut(mockedEditorEngine);
+	}
+
+	@Test
+	public void testExecute() {
+		cut.execute();
+		verify(mockedEditorEngine).engineCut();
+	}
+
+}

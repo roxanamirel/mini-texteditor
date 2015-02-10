@@ -1,0 +1,118 @@
+package fr.istic.aco.editor.core.test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.Buffer;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+import fr.istic.aco.editor.core.impl.MiniEditorEngineImpl;
+
+public class MiniEditorEngineTest {
+
+	private MiniEditorEngine engine;
+
+	private static final String TEST_STRING = "this is a test string";
+
+	@Before
+	public void setUp() throws Exception {
+		engine = new MiniEditorEngineImpl();
+
+	}
+
+	@Test
+	public void getBufferShouldBeEmptyTest() {
+		assertEquals("",
+				engine.getBuffer().read(0, engine.getBuffer().getLength()));
+	}
+
+	@Test
+	public void getBufferShouldNotBeEmptyTest() {
+		String testString = "test string";
+		engine.engineInsert(testString);
+
+		assertEquals(testString,
+				engine.getBuffer().read(0, engine.getBuffer().getLength()));
+	}
+
+	@Test
+	public void testForNotNullAfterInitialization() {
+		assertNotNull(engine);
+		assertNotNull(engine.getBuffer());
+		assertNotNull(engine.getClipboard());
+		assertNotNull(engine.getSelection());
+	}
+
+	@Test
+	public void testEngineSelect() {
+		int start = 3;
+		int stop = 5;
+		engine.engineInsert(TEST_STRING);
+		engine.engineSelect(start, stop);
+		assertEquals(Math.abs(stop - start), engine.getSelection().getLength());
+	}
+
+	@Test
+	public void testEngineInitialInsert() {
+		engine.engineInsert(TEST_STRING);
+		assertEquals(TEST_STRING,
+				engine.getBuffer().read(0, engine.getBuffer().getLength()));
+	}
+
+	@Test
+	public void testEngineInsertAtTheEnd() {
+		engine.engineInsert(TEST_STRING);
+		engine.engineInsert(TEST_STRING);
+		String testString = TEST_STRING + TEST_STRING;
+		assertEquals(testString,
+				engine.getBuffer().read(0, engine.getBuffer().getLength()));
+	}
+
+	@Test
+	public void testEngineCopy() {
+		engine.getBuffer().write(0, TEST_STRING.length(), TEST_STRING);
+		Buffer oldBuffer = new BufferImpl();
+		oldBuffer.write(0, TEST_STRING.length(), TEST_STRING);
+		int begin = 2;
+		int end = 5;
+		engine.getSelection().setBegin(begin);
+		engine.getSelection().setEnd(end);
+		engine.engineCopy();
+		assertEquals("is ", (engine.getClipboard().read()));
+		assertTrue(oldBuffer.equals(engine.getBuffer()));
+	}
+
+	@Test
+	public void testEngineCut() {
+		engine.getBuffer().write(0, TEST_STRING.length(), TEST_STRING);
+		Buffer oldBuffer = new BufferImpl();
+		oldBuffer.write(0, TEST_STRING.length(), TEST_STRING);
+		int begin = 2;
+		int end = 5;
+		engine.getSelection().setBegin(begin);
+		engine.getSelection().setEnd(end);
+		engine.engineCut();
+		assertEquals("is ", (engine.getClipboard().read()));
+		assertFalse(oldBuffer.equals(engine.getBuffer()));
+	}
+
+	@Test
+	public void testEnginePaste() {
+		engine.getBuffer().write(0, TEST_STRING.length(), TEST_STRING);
+		int begin = 2;
+		int end = 5;
+		engine.getSelection().setBegin(begin);
+		engine.getSelection().setEnd(end);
+		engine.engineCut();
+		engine.getSelection().setBegin(begin + 1);
+		engine.getSelection().setEnd(end + 1);
+		engine.enginePaste();
+		assertEquals("is ", (engine.getClipboard().read()));
+		assertFalse(engine.getBuffer().equals(TEST_STRING));
+	}
+}

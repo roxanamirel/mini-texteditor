@@ -1,0 +1,87 @@
+package eu.eitictlabs.dss.test;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import eu.eitictlabs.dss.Course1;
+import eu.eitictlabs.dss.Student3;
+
+import static org.mockito.Mockito.*;
+
+public class Scenario3Test {
+
+	private List<Course1> courses;
+	private List<Student3> students;
+	
+	@Before
+	public void setUp() throws Exception {
+		courses = new ArrayList<>();
+		students = new ArrayList<>();
+	}
+	
+	@Test
+	public void testForZeroSize() {
+		assertEquals(0, courses.size());
+		assertEquals(0, students.size());
+	}
+
+	@Test
+	public void testAddStudent() {
+		students.add(new Student3());
+		assertEquals(1, students.size());				
+	}
+	
+	@Test
+	public void testAddCourse() {
+		courses.add(new Course1());
+		assertEquals(1, courses.size());				
+	}
+	
+	/*
+	@Test
+	public void testAddCoursesToStudent() {		
+		Student3 student = Mockito.mock(Student3.class);
+		List<Course1> courses = createRandomCourses();
+		when(student.getCourse1().size()).thenReturn(courses.size());
+		assertEquals(courses.size(), student.getCourse1().size());				
+	}	
+	*/
+	
+	@Test
+	public void testAddStudentsToCourse() {
+		Course1 course =new Course1();
+		List<Student3> students = createRandomStudents();
+		Iterator<Student3> iterator = students.iterator();
+		while(iterator.hasNext()){
+			course.addStudent3(iterator.next());
+		}		
+		assertEquals(students.size(), course.getStudent3().size());				
+	}
+	
+	private List<Course1> createRandomCourses() {
+		int noCourses = (int) (7 * Math.random());
+		List<Course1> course1s = new ArrayList<>();
+		for (int counter = 0; counter < noCourses; counter++) {
+			course1s.add(new Course1());
+		}
+		return course1s;
+	}
+
+	private List<Student3> createRandomStudents() {
+		int noStudents = (int) (7 * Math.random());
+		List<Student3> students = new ArrayList<>();
+		for (int counter = 0; counter < noStudents; counter++) {
+			students.add(new Student3());
+		}
+		return students;
+	}
+	
+
+}

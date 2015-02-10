@@ -1,0 +1,44 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.Buffer;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+
+public class Paste extends BasicCommand implements UndoableRedoable {
+
+	private boolean undoed;
+	private Buffer buffer;
+
+	public Paste(MiniEditorEngine engine) {
+		super(engine);
+		this.buffer = new BufferImpl(engine.getBuffer());
+	}
+
+	@Override
+	public void execute() {
+		engine.enginePaste();
+	}
+
+	@Override
+	public void undo() {
+		engine.engineUndo(this);
+		undoed = true;
+
+	}
+
+	@Override
+	public boolean isUndoed() {
+		return undoed;
+	}
+
+	public Buffer getBuffer() {
+		return buffer;
+	}
+
+	@Override
+	public void redo() {
+		engine.engineRedo(this);
+		undoed = false;
+	}
+
+}

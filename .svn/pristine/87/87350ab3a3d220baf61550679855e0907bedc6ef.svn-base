@@ -1,0 +1,39 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.Clipboard;
+
+/**
+ * The Class ClipboardImpl.
+ * @version 1
+ * @author Mirel Vlad, Roxana-Ioana Roman
+ */
+public class ClipboardImpl implements Clipboard {
+
+	/** The clipbord string. */
+	private String clipbordString;
+	
+	/**
+	 * Instantiates a new clipboard impl.
+	 */
+	public ClipboardImpl() {
+		this.clipbordString = new String();
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.Clipboard#read()
+	 */
+	@Override
+	public String read() {
+		return clipbordString;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.Clipboard#write(java.lang.String)
+	 */
+	@Override
+	public void write(String str) {
+		clipbordString = str;
+		
+	}
+
+}

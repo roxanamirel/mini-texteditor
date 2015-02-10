@@ -1,0 +1,39 @@
+package fr.istic.aco.editor.core.impl;
+
+import java.util.List;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+import fr.istic.aco.editor.core.RecorderManager;
+import fr.istic.aco.editor.core.command.Command;
+
+public class RecorderEngineImpl implements RecorderEngine {
+
+	private RecorderManager recorderManager;
+	private int start;
+	private int finalIndex;
+
+	public RecorderEngineImpl() {
+		recorderManager = new RecorderManagerImpl();
+	}
+
+	@Override
+	public void startRecording(int start) {
+		this.start = start;
+		recorderManager.record(true);
+	}
+
+	@Override
+	public void stopRecording(int finalIndex) {
+		this.finalIndex = finalIndex;
+		recorderManager.record(false);
+	}
+
+	@Override
+	public void replay(List<Command> history) {
+		List<Command> commandsToExecute = history.subList(start, finalIndex);
+		for (Command command : commandsToExecute) {
+			command.execute();
+		}
+	}
+
+}

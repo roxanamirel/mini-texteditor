@@ -1,0 +1,208 @@
+/*
+ * 
+ */
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.MiniEditor;
+import fr.istic.aco.editor.core.MiniEditorCommandInvoker;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.RecorderEngine;
+import fr.istic.aco.editor.core.command.Command;
+import fr.istic.aco.editor.core.command.Copy;
+import fr.istic.aco.editor.core.command.Cut;
+import fr.istic.aco.editor.core.command.Insert;
+import fr.istic.aco.editor.core.command.Paste;
+import fr.istic.aco.editor.core.command.Replay;
+import fr.istic.aco.editor.core.command.Select;
+import fr.istic.aco.editor.core.command.StartRecord;
+import fr.istic.aco.editor.core.command.StopRecord;
+import fr.istic.aco.editor.core.command.UndoableRedoable;
+
+/**
+ * The Class MiniEditorImpl. The receiver class
+ * @version 1
+ */
+public class MiniEditorImpl implements MiniEditor {
+
+	/** The engine. */
+	private MiniEditorEngine engine;
+
+	/** The invoker. */
+	private MiniEditorCommandInvoker invoker;
+
+	/** The record engine. */
+	private RecorderEngine recordEngine;
+
+	/**
+	 * Instantiates a new mini editor impl class.
+	 */
+	public MiniEditorImpl() {
+
+		invoker = new MiniEditorCommandInvoker();
+		engine = new MiniEditorEngineImpl();
+		recordEngine = new RecorderEngineImpl();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#getBuffer()
+	 */
+	@Override
+	public String getBuffer() {
+		return engine.getBuffer().read(0, engine.getBuffer().getLength());
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#getSelection()
+	 */
+	@Override
+	public String getSelection() {
+		return engine.getBuffer().read(engine.getSelection().getBegin(),
+				engine.getSelection().getEnd());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#getClipboard()
+	 */
+	@Override
+	public String getClipboard() {
+		return engine.getClipboard().read();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorInsert(java.lang.String)
+	 */
+	@Override
+	public void editorInsert(String substring) {
+		Command insert = new Insert(engine, substring);
+		invoker.storeAndExecute(insert);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorSelect(int, int)
+	 */
+	@Override
+	public void editorSelect(int start, int stop) {
+		Command select = new Select(engine, start, stop);
+		invoker.storeAndExecute(select);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorCopy()
+	 */
+	@Override
+	public void editorCopy() {
+		Command copy = new Copy(engine);
+		invoker.storeAndExecute(copy);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorCut()
+	 */
+	@Override
+	public void editorCut() {
+		Command cut = new Cut(engine);
+		invoker.storeAndExecute(cut);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorPaste()
+	 */
+	@Override
+	public void editorPaste() {
+		Command paste = new Paste(engine);
+		invoker.storeAndExecute(paste);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorStartRecording()
+	 */
+	@Override
+	public void editorStartRecording() {
+		int startIndex = invoker.getHistory().size();
+		Command startRecord = new StartRecord(recordEngine, startIndex);
+		invoker.storeAndExecute(startRecord);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorEndRecording()
+	 */
+	@Override
+	public void editorEndRecording() {
+		int endIndex = invoker.getHistory().size();
+		Command stopRecord = new StopRecord(recordEngine, endIndex);
+		invoker.storeAndExecute(stopRecord);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorPlayRecording()
+	 */
+	@Override
+	public void editorPlayRecording() {
+		Command replay = new Replay(recordEngine, invoker.getHistory());
+		invoker.storeAndExecute(replay);
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorUndo()
+	 */
+	@Override
+	public void editorUndo() {
+		System.out.println("DEBUG: performing Undo");
+		for (Command undoableCommand : invoker.getReversedHistory()) {
+			if (undoableCommand instanceof UndoableRedoable
+					&& !((UndoableRedoable) undoableCommand).isUndone()) {
+				((UndoableRedoable) undoableCommand).undo();
+				break;
+			}
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.istic.aco.editor.MiniEditor#editorRedo()
+	 */
+	@Override
+	public void editorRedo() {
+		System.out.println("DEBUG: performing Redo");
+		for (Command undoableCommand : invoker.getHistory()) {
+			if (undoableCommand instanceof UndoableRedoable
+					&& ((UndoableRedoable) undoableCommand).isUndone()) {
+
+				((UndoableRedoable) undoableCommand).redo();
+				break;
+
+			}
+		}
+	}
+
+}

@@ -1,0 +1,146 @@
+/***********************************************************************
+ * Module:  Course1.java
+ * Author:  15011062
+ * Purpose: Defines the Class Course1
+ ***********************************************************************/
+
+package eu.eitictlabs.dss;
+
+import java.util.*;
+
+/** @pdOid d914ab00-6947-49e3-bf19-d126dcc08c95 */
+public class Course1 {
+   /** @pdRoleInfo migr=no name=Student1 assc=association1 mult=0..1 side=A */
+   private Student1 student1;
+   /** @pdRoleInfo migr=no name=Student2 assc=association2 coll=java.util.List impl=java.util.ArrayList mult=0..* side=A */
+   private java.util.List<Student2> student2;
+   /** @pdRoleInfo migr=no name=Student3 assc=association3 coll=java.util.List impl=java.util.ArrayList mult=0..* side=A */
+   private java.util.List<Student3> student3;
+   
+   
+   /** @pdGenerated default getter */
+   public java.util.List<Student2> getStudent2() {
+      if (student2 == null)
+         student2 = new java.util.ArrayList<Student2>();
+      return student2;
+   }
+   
+   /** @pdGenerated default iterator getter */
+   public java.util.Iterator getIteratorStudent2() {
+      if (student2 == null)
+         student2 = new java.util.ArrayList<Student2>();
+      return student2.iterator();
+   }
+   
+   /** @pdGenerated default setter
+     * @param newStudent2 */
+   public void setStudent2(java.util.List<Student2> newStudent2) {
+      removeAllStudent2();
+      for (java.util.Iterator iter = newStudent2.iterator(); iter.hasNext();)
+         addStudent2((Student2)iter.next());
+   }
+   
+   /** @pdGenerated default add
+     * @param newStudent2 */
+   public void addStudent2(Student2 newStudent2) {
+      if (newStudent2 == null)
+         return;
+      if (this.student2 == null)
+         this.student2 = new java.util.ArrayList<Student2>();
+      if (!this.student2.contains(newStudent2))
+      {
+         this.student2.add(newStudent2);
+         newStudent2.setCourse1(this);      
+      }
+   }
+   
+   /** @pdGenerated default remove
+     * @param oldStudent2 */
+   public void removeStudent2(Student2 oldStudent2) {
+      if (oldStudent2 == null)
+         return;
+      if (this.student2 != null)
+         if (this.student2.contains(oldStudent2))
+         {
+            this.student2.remove(oldStudent2);
+            oldStudent2.setCourse1((Course1)null);
+         }
+   }
+   
+   /** @pdGenerated default removeAll */
+   public void removeAllStudent2() {
+      if (student2 != null)
+      {
+         Student2 oldStudent2;
+         for (java.util.Iterator iter = getIteratorStudent2(); iter.hasNext();)
+         {
+            oldStudent2 = (Student2)iter.next();
+            iter.remove();
+            oldStudent2.setCourse1((Course1)null);
+         }
+      }
+   }
+   /** @pdGenerated default getter */
+   public java.util.List<Student3> getStudent3() {
+      if (student3 == null)
+         student3 = new java.util.ArrayList<Student3>();
+      return student3;
+   }
+   
+   /** @pdGenerated default iterator getter */
+   public java.util.Iterator getIteratorStudent3() {
+      if (student3 == null)
+         student3 = new java.util.ArrayList<Student3>();
+      return student3.iterator();
+   }
+   
+   /** @pdGenerated default setter
+     * @param newStudent3 */
+   public void setStudent3(java.util.List<Student3> newStudent3) {
+      removeAllStudent3();
+      for (java.util.Iterator iter = newStudent3.iterator(); iter.hasNext();)
+         addStudent3((Student3)iter.next());
+   }
+   
+   /** @pdGenerated default add
+     * @param newStudent3 */
+   public void addStudent3(Student3 newStudent3) {
+      if (newStudent3 == null)
+         return;
+      if (this.student3 == null)
+         this.student3 = new java.util.ArrayList<Student3>();
+      if (!this.student3.contains(newStudent3))
+      {
+         this.student3.add(newStudent3);
+         newStudent3.addCourse1(this);      
+      }
+   }
+   
+   /** @pdGenerated default remove
+     * @param oldStudent3 */
+   public void removeStudent3(Student3 oldStudent3) {
+      if (oldStudent3 == null)
+         return;
+      if (this.student3 != null)
+         if (this.student3.contains(oldStudent3))
+         {
+            this.student3.remove(oldStudent3);
+            oldStudent3.removeCourse1(this);
+         }
+   }
+   
+   /** @pdGenerated default removeAll */
+   public void removeAllStudent3() {
+      if (student3 != null)
+      {
+         Student3 oldStudent3;
+         for (java.util.Iterator iter = getIteratorStudent3(); iter.hasNext();)
+         {
+            oldStudent3 = (Student3)iter.next();
+            iter.remove();
+            oldStudent3.removeCourse1(this);
+         }
+      }
+   }
+
+}

@@ -1,0 +1,15 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+
+public abstract class RecorderCommand implements Command {
+
+	protected RecorderEngine engine;
+
+	public RecorderCommand(RecorderEngine engine) {
+		this.engine = engine;
+	}
+
+	@Override
+	public abstract void execute();
+}

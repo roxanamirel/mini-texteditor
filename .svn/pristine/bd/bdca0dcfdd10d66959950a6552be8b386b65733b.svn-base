@@ -1,0 +1,88 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.Buffer;
+import fr.istic.aco.editor.core.Clipboard;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.Selection;
+
+public class MiniEditorEngineImpl implements MiniEditorEngine {
+
+	private Buffer buffer;
+	private Selection selection;
+	private Clipboard clipboard;
+
+	public MiniEditorEngineImpl() {
+		this.buffer = new BufferImpl();
+		this.selection = new SelectionImpl();
+		this.clipboard = new ClipboardImpl();
+	}
+
+	@Override
+	public Buffer getBuffer() {
+		return this.buffer;
+
+	}
+
+	@Override
+	public Selection getSelection() {
+		return selection;
+	}
+
+	@Override
+	public Clipboard getClipboard() {
+		return clipboard;
+	}
+
+	@Override
+	public void engineSelect(int start, int stop) {
+		selection.setBegin(start);
+		selection.setEnd(stop);
+		String selected = buffer.read(selection.getBegin(), selection.getEnd())!=""?
+							buffer.read(selection.getBegin(), selection.getEnd()):"You are at the end of buffer";
+		System.out.println("DEBUG: selecting interval [" + selection.getBegin()
+				+ "," + selection.getEnd() + "].  "
+				+ selected);
+
+	}
+
+	@Override
+	public void enginePaste() {
+		buffer.write(selection.getBegin(), selection.getEnd(), clipboard.read());
+		System.out.println("DEBUG: 	Paste ["
+				+ buffer.read(0, buffer.getLength()) + "]");
+
+	}
+
+	@Override
+	public void engineInsert(String insertString) {
+		System.out.println("DEBUG: inserting text [" + insertString + "]");
+		if (buffer.getLength() != 0) {
+			//TODO at append think about space at the end
+			buffer.write(buffer.getLength(), buffer.getLength()
+					+ insertString.length(), insertString);
+		} else {
+			buffer.write(0, insertString.length(), insertString);
+		}
+		System.out.println("DEBUG: Text is: "
+				+ buffer.read(0, buffer.getLength()));
+
+	}
+
+	@Override
+	public void engineCut() {
+		clipboard.write(buffer.read(selection.getBegin(), selection.getEnd()));
+		buffer.write(selection.getBegin(), selection.getEnd(), "");
+		System.out.println("DEBUG: Cut: Clipboard contains now "
+				+ clipboard.read());
+
+	}
+
+	@Override
+	public void engineCopy() {
+		clipboard.write(buffer.read(selection.getBegin(), selection.getEnd()));
+		System.out.println("DEBUG: Copy: . Clipboard contains now "
+				+ clipboard.read());
+
+	}
+
+}

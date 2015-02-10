@@ -1,0 +1,53 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.Buffer;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+
+public class Insert extends BasicCommand implements UndoableRedoable {
+	
+	private String insertString;
+	private Buffer buffer;
+	private boolean undoed;
+
+	public Insert(MiniEditorEngine engine, String insertString) {
+		super(engine);
+		this.insertString = insertString;
+		this.buffer = new BufferImpl(engine.getBuffer());
+	}
+
+	@Override
+	public void execute() {
+		engine.engineInsert(insertString);
+	}
+
+	@Override
+	public void undo() {
+		engine.engineUndo(this);
+		undoed = true;
+	}
+	
+	public Buffer getBuffer() {
+		return buffer;
+	}
+
+	@Override
+	public boolean isUndoed() {
+		return undoed;
+	}
+
+	@Override
+	public void redo() {
+		engine.engineRedo(this);
+		undoed = false;
+		
+	}
+
+	/**
+	 * @return the insertString
+	 */
+	public String getInsertString() {
+		return insertString;
+	}
+
+}

@@ -1,0 +1,19 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+
+public class StartRecord extends RecorderCommand {
+	
+	private int startIndex;
+
+	public StartRecord(RecorderEngine engine, int startIndex) {
+		super(engine);
+		this.startIndex = startIndex;
+	}
+
+	@Override
+	public void execute() {
+		engine.startRecording(startIndex);		
+	}
+
+}

@@ -1,0 +1,80 @@
+/***********************************************************************
+ * Module:  Student3.java
+ * Author:  15011062
+ * Purpose: Defines the Class Student3
+ ***********************************************************************/
+
+package eu.eitictlabs.dss;
+
+import java.util.*;
+
+/** @pdOid 8c78455d-78ed-4997-8a64-079fcfa00354 */
+public class Student3 {
+   /** @pdRoleInfo migr=no name=Course1 assc=association3 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   private java.util.List<Course1> course1;
+   
+   
+   /** @pdGenerated default getter */
+   public java.util.List<Course1> getCourse1() {
+      if (course1 == null)
+         course1 = new java.util.ArrayList<Course1>();
+      return course1;
+   }
+   
+   /** @pdGenerated default iterator getter */
+   public java.util.Iterator getIteratorCourse1() {
+      if (course1 == null)
+         course1 = new java.util.ArrayList<Course1>();
+      return course1.iterator();
+   }
+   
+   /** @pdGenerated default setter
+     * @param newCourse1 */
+   public void setCourse1(java.util.List<Course1> newCourse1) {
+      removeAllCourse1();
+      for (java.util.Iterator iter = newCourse1.iterator(); iter.hasNext();)
+         addCourse1((Course1)iter.next());
+   }
+   
+   /** @pdGenerated default add
+     * @param newCourse1 */
+   public void addCourse1(Course1 newCourse1) {
+      if (newCourse1 == null)
+         return;
+      if (this.course1 == null)
+         this.course1 = new java.util.ArrayList<Course1>();
+      if (!this.course1.contains(newCourse1))
+      {
+         this.course1.add(newCourse1);
+         newCourse1.addStudent3(this);      
+      }
+   }
+   
+   /** @pdGenerated default remove
+     * @param oldCourse1 */
+   public void removeCourse1(Course1 oldCourse1) {
+      if (oldCourse1 == null)
+         return;
+      if (this.course1 != null)
+         if (this.course1.contains(oldCourse1))
+         {
+            this.course1.remove(oldCourse1);
+            oldCourse1.removeStudent3(this);
+         }
+   }
+   
+   /** @pdGenerated default removeAll */
+   public void removeAllCourse1() {
+      if (course1 != null)
+      {
+         Course1 oldCourse1;
+         for (java.util.Iterator iter = getIteratorCourse1(); iter.hasNext();)
+         {
+            oldCourse1 = (Course1)iter.next();
+            iter.remove();
+            oldCourse1.removeStudent3(this);
+         }
+      }
+   }
+
+}

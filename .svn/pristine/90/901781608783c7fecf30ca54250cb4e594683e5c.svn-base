@@ -1,0 +1,41 @@
+/***********************************************************************
+ * Module:  Student2.java
+ * Author:  15011062
+ * Purpose: Defines the Class Student2
+ ***********************************************************************/
+
+package eu.eitictlabs.dss;
+
+import java.util.*;
+
+/** @pdOid 98e2dd93-3d85-4d05-829f-f4673d636aa7 */
+public class Student2 {
+   /** @pdRoleInfo migr=no name=Course1 assc=association2 mult=0..1 */
+   private Course1 course1;
+   
+   
+   /** @pdGenerated default parent getter */
+   public Course1 getCourse1() {
+      return course1;
+   }
+   
+   /** @pdGenerated default parent setter
+     * @param newCourse1 */
+   public void setCourse1(Course1 newCourse1) {
+      if (this.course1 == null || !this.course1.equals(newCourse1))
+      {
+         if (this.course1 != null)
+         {
+            Course1 oldCourse1 = this.course1;
+            this.course1 = null;
+            oldCourse1.removeStudent2(this);
+         }
+         if (newCourse1 != null)
+         {
+            this.course1 = newCourse1;
+            this.course1.addStudent2(this);
+         }
+      }
+   }
+
+}

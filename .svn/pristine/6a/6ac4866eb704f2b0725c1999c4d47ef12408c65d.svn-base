@@ -1,0 +1,39 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+
+/**
+ * The Class BasicCommand.
+ * @version 1
+ */
+ abstract class BasicCommand implements Command {
+	
+	/** The engine. */
+	protected MiniEditorEngine engine;
+    
+	/**
+	 * Instantiates a new basic command.
+	 *
+	 * @param engine the engine
+	 */
+	 BasicCommand(MiniEditorEngine engine) {
+		this.engine = engine;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.command.Command#execute()
+	 */
+	@Override
+	public abstract void execute();
+
+	/**
+	 * Gets the engine.
+	 *
+	 * @return the engine
+	 */
+	public MiniEditorEngine getEngine() {
+		return engine;
+	}
+
+
+}

@@ -1,0 +1,9 @@
+package fr.istic.aco.editor.core;
+
+public interface RecorderManager {
+	
+	public abstract boolean isRecording();
+	
+	public abstract void record(boolean isRecording);
+
+}

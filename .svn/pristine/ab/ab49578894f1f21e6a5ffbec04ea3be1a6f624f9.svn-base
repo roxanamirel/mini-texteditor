@@ -1,0 +1,10 @@
+package fr.istic.aco.editor.core;
+/**
+ * @author Mirel Vlad, Roxana-Ioana Roman
+ * @version 3
+ * The Receiver 
+ *
+ */
+public interface MiniEditorReceiver {
+
+}

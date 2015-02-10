@@ -1,0 +1,33 @@
+package fr.istic.aco.editor.core.command.test;
+
+import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.command.Paste;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+import fr.istic.aco.editor.core.impl.SelectionImpl;
+
+public class PasteTest {
+
+	private Paste paste;
+	
+	private MiniEditorEngine mockedEditorEngine;	
+	
+	@Before
+	public void setUp() throws Exception {
+		mockedEditorEngine = mock(MiniEditorEngine.class);
+		when(mockedEditorEngine.getBuffer()).thenReturn(new BufferImpl());
+		when(mockedEditorEngine.getSelection()).thenReturn(new SelectionImpl());
+		paste = new Paste(mockedEditorEngine);
+	}
+
+	@Test
+	public void testExecute() {
+		paste.execute();
+		verify(mockedEditorEngine).enginePaste();
+	}
+
+}

@@ -1,0 +1,15 @@
+package fr.istic.aco.editor.core;
+
+import java.util.List;
+
+import fr.istic.aco.editor.core.command.Command;
+
+public interface RecorderEngine {
+
+	public abstract void startRecording(int start);
+
+	public abstract void stopRecording(int finalIndex);
+
+	public abstract void replay(List<Command> history);
+
+}

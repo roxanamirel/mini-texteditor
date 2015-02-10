@@ -1,0 +1,19 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.RecorderManager;
+
+public class RecorderManagerImpl implements RecorderManager {
+
+	private boolean isRecording;
+
+	@Override
+	public void record(boolean isRecording) {
+		this.isRecording = isRecording;
+	}
+
+	@Override
+	public boolean isRecording() {
+		return isRecording;
+	}
+
+}

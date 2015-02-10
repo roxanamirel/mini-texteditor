@@ -1,0 +1,134 @@
+package fr.istic.aco.editor.core.test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.RecorderEngine;
+import fr.istic.aco.editor.core.command.Command;
+import fr.istic.aco.editor.core.command.Copy;
+import fr.istic.aco.editor.core.command.Cut;
+import fr.istic.aco.editor.core.command.Insert;
+import fr.istic.aco.editor.core.command.Paste;
+import fr.istic.aco.editor.core.command.Select;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+import fr.istic.aco.editor.core.impl.RecorderEngineImpl;
+import fr.istic.aco.editor.core.impl.SelectionImpl;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
+/**
+ * The Class RecorderEngineTest.
+ */
+public class RecorderEngineTest {
+
+	/** The recorder engine. */
+	private RecorderEngine recorderEngine;
+	
+	/** The mocked editor engine. */
+	private MiniEditorEngine mockedEditorEngine;
+
+	/** The history. */
+	private List<Command> history;
+
+	/** The Constant TEST_STRING. */
+	private static final String TEST_STRING = "this is a test string";
+	
+	/** The start. */
+	private final int START = 10;
+	
+	/** The end. */
+	private final int END = 14;
+
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		mockedEditorEngine = mock(MiniEditorEngine.class);
+		when(mockedEditorEngine.getBuffer()).thenReturn(new BufferImpl());
+		when(mockedEditorEngine.getSelection()).thenReturn(new SelectionImpl());
+		recorderEngine = new RecorderEngineImpl();
+		history = new ArrayList<>();
+		populateHistory();
+	}
+
+	/**
+	 * First three commands should execute.
+	 */
+	@Test
+	public void firstThreeCommandsShouldExecute() {
+		recorderEngine.startRecording(0);
+		recorderEngine.stopRecording(3);
+		recorderEngine.replay(history);
+
+		verify(mockedEditorEngine).engineInsert(TEST_STRING);
+		verify(mockedEditorEngine).engineSelect(START, END);
+		verify(mockedEditorEngine).engineCopy();
+	}
+
+	/**
+	 * Last three commands should execute.
+	 */
+	@Test
+	public void lastThreeCommandsShouldExecute() {
+		recorderEngine.startRecording(history.size() - 3);
+		recorderEngine.stopRecording(history.size());
+		recorderEngine.replay(history);
+
+		verify(mockedEditorEngine).engineCut();
+		verify(mockedEditorEngine).engineSelect(0, 0);
+		verify(mockedEditorEngine).enginePaste();
+	}
+
+	/**
+	 * All commands should execute.
+	 */
+	@Test
+	public void allCommandsShouldExecute() {
+		recorderEngine.startRecording(0);
+		recorderEngine.stopRecording(history.size());
+		recorderEngine.replay(history);
+
+		verify(mockedEditorEngine).engineInsert(TEST_STRING);
+		verify(mockedEditorEngine, times(2)).engineSelect(START, END);
+		verify(mockedEditorEngine).engineCopy();
+
+		verify(mockedEditorEngine).engineSelect(TEST_STRING.length(),
+				TEST_STRING.length());
+		verify(mockedEditorEngine, times(2)).enginePaste();
+
+		verify(mockedEditorEngine).engineCut();
+		verify(mockedEditorEngine).engineSelect(0, 0);
+	}
+
+	/**
+	 * Populate history.
+	 */
+	private void populateHistory() {
+		history.add(new Insert(mockedEditorEngine, TEST_STRING));
+		history.add(new Select(mockedEditorEngine, START, END));
+		history.add(new Copy(mockedEditorEngine));
+
+		// add at the end
+		history.add(new Select(mockedEditorEngine, TEST_STRING.length(),
+				TEST_STRING.length()));
+		history.add(new Paste(mockedEditorEngine));
+
+		history.add(new Select(mockedEditorEngine, START, END));
+		history.add(new Cut(mockedEditorEngine));
+
+		// add at the beginning
+		history.add(new Select(mockedEditorEngine, 0, 0));
+		history.add(new Paste(mockedEditorEngine));
+
+	}
+
+}

@@ -1,0 +1,20 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+
+
+public class Insert extends MiniEditorCommand {
+	private String insertString;
+
+	
+	public Insert(MiniEditorEngine engine, String insertString) {
+		super(engine);
+		this.insertString = insertString;
+	}
+
+	@Override
+	public void execute() {
+		engine.engineInsert(insertString);
+	}
+
+}

@@ -1,0 +1,23 @@
+package fr.istic.aco.editor.core;
+
+
+public interface MiniEditorEngine extends UndoRedoOperation {
+
+	public Buffer getBuffer();
+	
+	public Selection getSelection();
+	
+	public Clipboard getClipboard();
+	
+	public void engineSelect(int start, int stop);
+	
+	public void enginePaste();
+	
+	public void engineInsert(String insertString);
+	
+	public void engineCut();
+	
+	public void engineCopy(); 
+	
+	
+}

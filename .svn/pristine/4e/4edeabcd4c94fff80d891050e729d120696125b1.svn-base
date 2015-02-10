@@ -1,0 +1,14 @@
+package fr.istic.aco.editor.core;
+
+import fr.istic.aco.editor.core.command.Cut;
+import fr.istic.aco.editor.core.command.Insert;
+import fr.istic.aco.editor.core.command.Paste;
+
+public interface UndoOperation {
+	void engineUndo(Insert insertCommand);
+
+	void engineUndo(Cut cutCommand);
+
+	void engineUndo(Paste pasteCommand);
+
+}

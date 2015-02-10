@@ -1,0 +1,19 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.MiniEditorEngine;
+
+public class Select extends BasicCommand {
+	private int start;
+	private int stop;
+
+	public Select(MiniEditorEngine engine,int start,int stop) {
+		super(engine);
+		this.start = start;
+		this.stop = stop;
+	}
+
+	@Override
+	public void execute() {
+		engine.engineSelect(start, stop);		
+	}
+}

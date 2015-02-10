@@ -1,0 +1,88 @@
+package fr.istic.aco.editor.core.command;
+
+import fr.istic.aco.editor.core.Buffer;
+import fr.istic.aco.editor.core.MiniEditorEngine;
+import fr.istic.aco.editor.core.Selection;
+import fr.istic.aco.editor.core.impl.BufferImpl;
+import fr.istic.aco.editor.core.impl.SelectionImpl;
+
+/**
+ * The Class Paste.
+ * @version 1
+ */
+public class Paste extends BasicCommand implements UndoableRedoable {
+
+	/** The undone. */
+	private boolean undone;
+	
+	/** The buffer. */
+	private Buffer buffer;
+	
+	/** The selection. */
+	private Selection selection;
+
+	/**
+	 * Instantiates a new paste.
+	 *
+	 * @param engine the engine
+	 */
+	public Paste(MiniEditorEngine engine) {
+		super(engine);
+		this.buffer = new BufferImpl(engine.getBuffer());
+		this.selection = new SelectionImpl(engine.getSelection());
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.command.BasicCommand#execute()
+	 */
+	@Override
+	public void execute() {
+		engine.enginePaste();
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.command.UndoableRedoable#undo()
+	 */
+	@Override
+	public void undo() {
+		engine.engineUndo(this);
+		undone = true;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.command.UndoableRedoable#isUndone()
+	 */
+	@Override
+	public boolean isUndone() {
+		return undone;
+	}
+
+	/**
+	 * Gets the buffer.
+	 *
+	 * @return the buffer
+	 */
+	public Buffer getBuffer() {
+		return buffer;
+	}
+
+	/**
+	 * Gets the selection.
+	 *
+	 * @return the selection
+	 */
+	public Selection getSelection() {
+		return this.selection;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.istic.aco.editor.core.command.UndoableRedoable#redo()
+	 */
+	@Override
+	public void redo() {
+		engine.engineRedo(this);
+		undone = false;
+	}
+
+}

@@ -1,0 +1,22 @@
+package fr.istic.aco.editor.core;
+
+/**
+ * The Interface Clipboard.
+ * @version 1
+ */
+public interface Clipboard {
+
+	/**
+	 * Read the string from the clipboard.
+	 *
+	 * @return the string contained in the clipboard
+	 */
+	String read();
+	
+	/**
+	 * Write the string in the clipboard.
+	 *
+	 * @param text the text to write in the clipboard
+	 */
+	void write(String text);
+}

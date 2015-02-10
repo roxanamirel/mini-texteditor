@@ -1,0 +1,33 @@
+package fr.istic.aco.editor.core.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.MiniEditor;
+import fr.istic.aco.editor.MiniEditorStub;
+
+public class MiniEditorStubTest {
+
+	private MiniEditor miniEditor;
+	
+	@Before
+	public void setUp() {
+		miniEditor = new MiniEditorStub();
+	}
+	
+	@Test
+	public void getBufferShouldBeEmptyTest() {
+		assertEquals(null, miniEditor.getBuffer());
+	}
+	
+	@Test
+	public void getBufferShouldNotBeEmptyTest() {
+		String testString = "test string";
+		miniEditor.editorInsert(testString);
+		
+		assertEquals(testString, miniEditor.getBuffer());
+	}
+
+}

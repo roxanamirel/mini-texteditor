@@ -1,0 +1,21 @@
+package fr.istic.aco.editor.core.command;
+
+import java.util.List;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+
+public class Replay extends RecorderCommand {
+
+	private List<Command> history;
+	
+	public Replay(RecorderEngine engine, List<Command> history) {
+		super(engine);
+		this.history = history;
+	}
+
+	@Override
+	public void execute() {
+		engine.replay(history);
+	}
+
+}

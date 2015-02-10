@@ -1,0 +1,26 @@
+package fr.istic.aco.editor.core;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.istic.aco.editor.core.command.Command;
+/*
+ * the invoker class
+ */
+public class MiniEditorCommandInvoker {
+	
+	private List<Command> history;
+	
+	public MiniEditorCommandInvoker(){
+		history = new ArrayList<>();
+	}
+	
+	public List<Command> getHistory() {
+		return history;
+	}
+	
+	public void storeAndExecute(Command command) {
+		history.add(command);
+		command.execute();
+	}
+}

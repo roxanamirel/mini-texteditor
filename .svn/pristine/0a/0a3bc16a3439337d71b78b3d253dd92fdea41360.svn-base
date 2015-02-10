@@ -1,0 +1,10 @@
+package fr.istic.aco.editor.core;
+
+public interface Selection {
+
+	int getBegin();
+	int getEnd();
+	void setBegin(int begin);
+	void setEnd(int end);
+	int getLength();
+}

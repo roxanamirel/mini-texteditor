@@ -1,0 +1,10 @@
+package fr.istic.aco.editor.core;
+
+public interface Buffer {
+	
+	String read(int begin,int end);
+	void write(int begin,int end,String str );
+	int getLength();
+	boolean equals(Buffer buffer);
+	public Buffer clone();
+}

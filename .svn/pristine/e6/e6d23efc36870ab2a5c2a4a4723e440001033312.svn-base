@@ -1,0 +1,7 @@
+package fr.istic.aco.editor.core;
+
+public interface Clipboard {
+
+	String read();
+	void write(String str);
+}

@@ -1,0 +1,72 @@
+package fr.istic.aco.editor.core.impl;
+
+import fr.istic.aco.editor.core.Buffer;
+
+public class BufferImpl implements Buffer, Cloneable {
+
+	private String stringBuffer;
+
+	public BufferImpl() {
+		this.stringBuffer = new String();
+	}
+	
+	@Override
+	public Buffer clone() {
+		Buffer buffer = new BufferImpl();
+		String cpy = stringBuffer;
+		buffer.write(0, stringBuffer.length(), cpy);
+		return buffer;
+	}
+
+	
+
+	@Override
+	public String read(int begin, int end) {
+		if (begin > stringBuffer.length()){
+			return "";
+		}
+		else if(end > stringBuffer.length()){
+			return stringBuffer.substring(begin,stringBuffer.length());
+		}
+		
+		else{
+			return stringBuffer.substring(begin, end);
+		}
+		
+	}
+
+	@Override
+	public void write(int begin, int end, String str) {
+		if (str.equals("")) {
+			// performing CUT operation
+			end = end>stringBuffer.length()?stringBuffer.length():end;
+			begin = begin>stringBuffer.length()?stringBuffer.length():begin;
+			
+			this.stringBuffer = stringBuffer.substring(0, begin)
+					+ stringBuffer.substring(end, stringBuffer.length());
+		} else {
+			//// performing COPY & INSERT operation
+			
+			String leftPart = begin <= stringBuffer.length() ? stringBuffer
+					.substring(0, begin) : stringBuffer;
+			String rightPart = end <= stringBuffer.length() ? stringBuffer
+					.substring(end, stringBuffer.length()) : "";
+			this.stringBuffer = leftPart.concat(str).concat(rightPart);
+		}
+	}
+
+	@Override
+	public int getLength() {
+		return stringBuffer.length();
+	}
+
+	@Override
+	public boolean equals(Buffer buffer) {
+		if (buffer instanceof BufferImpl) {
+			return (buffer.read(0, buffer.getLength())).equals(this.read(0,
+					this.getLength()));
+		} else {
+			return false;
+		}
+	}
+}

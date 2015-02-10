@@ -1,0 +1,37 @@
+package fr.istic.aco.editor.core.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.RecorderManager;
+import fr.istic.aco.editor.core.impl.RecorderManagerImpl;
+
+public class RecorderManagerTest {
+	
+	private RecorderManager recorderManager;
+	
+	@Before
+	public void setUp() throws Exception {
+		recorderManager = new RecorderManagerImpl();
+	}
+
+	@Test
+	public void shouldNotRecord() {
+		assertEquals(false, recorderManager.isRecording());
+	}
+	
+	@Test
+	public void shouldRecord() {
+		recorderManager.record(true);
+		assertEquals(true, recorderManager.isRecording());
+	}
+	
+	@Test
+	public void shouldStopRecord() {
+		recorderManager.record(false);
+		assertEquals(false, recorderManager.isRecording());
+	}
+
+}

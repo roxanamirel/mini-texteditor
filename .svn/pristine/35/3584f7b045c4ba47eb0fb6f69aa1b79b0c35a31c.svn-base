@@ -1,0 +1,40 @@
+package fr.istic.aco.editor.core.command.test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.Random;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.istic.aco.editor.core.RecorderEngine;
+import fr.istic.aco.editor.core.command.RecorderCommand;
+import fr.istic.aco.editor.core.command.StopRecord;
+
+public class StopRecordTest {
+
+	private RecorderCommand stopRecord;
+	private RecorderEngine mockedRecorderEngine;
+	private Random rn;
+	private static final int MAX = 20;
+
+	@Before
+	public void setUp() throws Exception {
+		mockedRecorderEngine = mock(RecorderEngine.class);
+		rn = new Random();
+	}
+
+	@Test
+	public void testExecute() {
+
+		for (int counter = 0; counter < 3; counter++) {
+			int stopIndex = rn.nextInt(MAX);
+			stopRecord = new StopRecord(mockedRecorderEngine, stopIndex);
+			stopRecord.execute();
+			verify(mockedRecorderEngine).stopRecording(stopIndex);
+		}
+
+	}
+
+}

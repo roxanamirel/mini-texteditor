@@ -1,0 +1,16 @@
+/***********************************************************************
+ * Module:  Student1.java
+ * Author:  15011062
+ * Purpose: Defines the Class Student1
+ ***********************************************************************/
+
+package eu.eitictlabs.dss;
+
+import java.util.*;
+
+/** @pdOid ddc55078-8732-4077-89a9-f00ccd474856 */
+public class Student1 {
+   /** @pdRoleInfo migr=no name=Course1 assc=association1 mult=0..1 */
+   private Course1 course1;
+
+}
